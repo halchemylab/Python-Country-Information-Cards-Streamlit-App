@@ -13,8 +13,9 @@ def fetch_country_data(country_name):
         area = country_data["area"]
         currency = country_data["currencies"]
         language = country_data["languages"]
+        flag = country_data["flags"]["png"]
 
-        return name, capital, population, area, currency, language
+        return name, capital, population, area, currency, language, flag
     else:
         return None
 
@@ -26,9 +27,10 @@ def main():
     if country_name:
         country_info = fetch_country_data(country_name)
         if country_info:
-            name, capital, population, area, currency, language = country_info
+            name, capital, population, area, currency, language, flag = country_info
 
             st.subheader("Country Information")
+            st.image(flag, width=200)
             st.write(f"Name: {name}")
             st.write(f"Capital: {capital}")
             st.write(f"Population: {population}")
