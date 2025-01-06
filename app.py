@@ -13,7 +13,7 @@ def fetch_country_data(country_name):
         area = country_data["area"]
         currency = country_data["currencies"]
         language = country_data["languages"]
-        flag = country_data["flags"]["png"]
+        flag = country_data["flags"][1]
 
         return name, capital, population, area, currency, language, flag
     else:
