@@ -17,3 +17,27 @@ def fetch_country_data(country_name):
         return name, capital, population, area, currency, language
     else:
         return None
+
+def main():
+    st.title("Country Information App")
+
+    country_name = st.text_input("Enter a country name to look up:")
+
+    if country_name:
+        country_info = fetch_country_data(country_name)
+        if country_info:
+            name, capital, population, area, currency, language = country_info
+
+            st.subheader("Country Information")
+            st.write(f"Name: {name}")
+            st.write(f"Capital: {capital}")
+            st.write(f"Population: {population}")
+            st.write(f"Area: {area} sq km")
+            st.write(f"Currency: {currency}")
+            st.write(f"Language: {language}")
+
+        else:
+            st.error("Error: Country data not found!")
+
+if __name__ == "__main__"
+    main()
