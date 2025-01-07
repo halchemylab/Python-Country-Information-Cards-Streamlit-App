@@ -24,13 +24,31 @@ def fetch_country_data(country_name):
         currency = list(country_data["currencies"].keys())[0]
         language = list(country_data["languages"].values())[0]
         flag = country_data["flags"][1]  # Use the second URL in the list for the PNG flag
-
-        return name, capital, population, area, currency, language, flag
+        region = country_data["region"]
+        return name, capital, population, area, currency, language, flag, region
     else:
         return None
 
+def fetch_timezone_data(region, capital):
+    time_zone = f"{region}/{capital}"
+    try:
+        response = requests.get(f"https://www.timeapi.io/api/Time/current/zone?timeZone={time_zone}")
+        if response.status_code == 200:
+            data = response.json()
+            return {
+                "time_zone": time_zone,
+                "current_time": data.get("time"),
+                "date": data.get("date"),
+                "day_of_week": data.get("dayOfWeek"),
+                "dst_active": data.get("dstActive")
+            }
+        else:
+            return None
+    except Exception as e:
+        return None
+
 def display_country_info(country_info, column):
-    name, capital, population, area, currency, language, flag = country_info
+    name, capital, population, area, currency, language, flag, region = country_info
 
     with column:
         st.image(flag, width=200)
@@ -40,7 +58,21 @@ def display_country_info(country_info, column):
         st.write(f"Area: {area} sq km")
         st.write(f"Currency: {currency}")
         st.write(f"Language: {language}")
-    return population, area
+    return capital, population, area, region
+
+def display_timezone_info(region, capital, column, header):
+    st.markdown("---")  # Add a line between country and timezone information
+    with column:
+        st.subheader(header)  # Display custom header for time zone information
+        timezone_data = fetch_timezone_data(region, capital)
+        if timezone_data:
+            st.write(f"**Capital Time Zone**: {timezone_data['time_zone']}")
+            st.write(f"**Current Time**: {timezone_data['current_time']}")
+            st.write(f"**Date**: {timezone_data['date']}")
+            st.write(f"**Day of the Week**: {timezone_data['day_of_week']}")
+            st.write(f"**DST Active**: {'Yes' if timezone_data['dst_active'] else 'No'}")
+        else:
+            st.error(f"Could not fetch timezone information for {capital}.")
 
 def plot_bar_graph(data, column, title, xlabel, ylabel, colors):
     with column:
@@ -68,9 +100,12 @@ def main():
             country_info1 = fetch_country_data(country_name1)
             if country_info1:
                 st.subheader("1st Country Information")
-                population, area = display_country_info(country_info1, col1)
+                capital1, population, area, region1 = display_country_info(country_info1, col1)
                 population_data[country_name1] = population
                 area_data[country_name1] = area
+
+                # Display timezone information for the 1st country
+                display_timezone_info(region1, capital1, col1, "1st Country Time")
             else:
                 st.error("Error: First country data not found!")
 
@@ -80,9 +115,12 @@ def main():
             country_info2 = fetch_country_data(country_name2)
             if country_info2:
                 st.subheader("2nd Country Information")
-                population, area = display_country_info(country_info2, col2)
+                capital2, population, area, region2 = display_country_info(country_info2, col2)
                 population_data[country_name2] = population
                 area_data[country_name2] = area
+
+                # Display timezone information for the 2nd country
+                display_timezone_info(region2, capital2, col2, "2nd Country Time")
             else:
                 st.error("Error: Second country data not found!")
 
