@@ -31,7 +31,7 @@ def display_country_info(country_info):
     st.write(f"Language: {language}")
 
 def main():
-    st.title("Country Information App")
+    st.title("Country Information Comparison App")
 
     col1, col2 = st.columns(2)
 
@@ -40,17 +40,17 @@ def main():
         if country_name1:
             country_info1 = fetch_country_data(country_name1)
             if country_info1:
-                st.subheader("First Country Information")
+                st.subheader("1st Country Information")
                 display_country_info(country_info1)
             else:
                 st.error("Error: First country data not found!")
 
     with col2:
-        country_name2 = st.text_input("Enter the second country name to look up:")
+        country_name2 = st.text_input("Enter the second country name to compare:")
         if country_name2:
             country_info2 = fetch_country_data(country_name2)
             if country_info2:
-                st.subheader("Second Country Information")
+                st.subheader("2nd Country Information")
                 display_country_info(country_info2)
             else:
                 st.error("Error: Second country data not found!")
