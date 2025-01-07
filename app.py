@@ -42,10 +42,10 @@ def display_country_info(country_info, column):
         st.write(f"Language: {language}")
     return population, area
 
-def plot_bar_graph(data, column, title, xlabel, ylabel):
+def plot_bar_graph(data, column, title, xlabel, ylabel, colors):
     with column:
-        fig, ax = plt.subplots()
-        ax.bar(data.keys(), data.values(), color="blue", alpha=0.7)
+        fig, ax = plt.subplots(figsize=(5, 3))  # Ensure consistent graph size
+        ax.bar(data.keys(), data.values(), color=colors, alpha=0.7)
         ax.set_title(title)
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
@@ -92,19 +92,24 @@ def main():
         st.subheader("Comparison Graphs")
         col3, col4 = st.columns(2)
 
+        # Define bar colors
+        colors = ["red", "blue"]
+
         plot_bar_graph(
             population_data,
             col3,
             "Population Comparison",
             "Country",
-            "Population"
+            "Population",
+            colors
         )
         plot_bar_graph(
             area_data,
             col4,
             "Area Comparison",
             "Country",
-            "Area (sq km)"
+            "Area (sq km)",
+            colors
         )
 
 if __name__ == "__main__":
