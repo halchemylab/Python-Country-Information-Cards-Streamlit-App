@@ -1,6 +1,15 @@
 import requests
 import streamlit as st
 
+@st.cache_data
+def fetch_all_countries():
+    response = requests.get("https://restcountries.com/v3/all")
+    if response.status_code == 200:
+        data = response.json()
+        return [country["name"]["common"] for country in data]
+    else:
+        return []
+
 def fetch_country_data(country_name):
     response = requests.get(f"https://restcountries.com/v3/name/{country_name}")
     if response.status_code == 200:
@@ -33,10 +42,13 @@ def display_country_info(country_info):
 def main():
     st.title("Country Information Comparison App")
 
+    # Fetch country names for autocomplete
+    country_list = fetch_all_countries()
+
     col1, col2 = st.columns(2)
 
     with col1:
-        country_name1 = st.text_input("Enter the first country name to look up:")
+        country_name1 = st.selectbox("Select the first country:", country_list, help="Start typing to search")
         if country_name1:
             country_info1 = fetch_country_data(country_name1)
             if country_info1:
@@ -46,7 +58,7 @@ def main():
                 st.error("Error: First country data not found!")
 
     with col2:
-        country_name2 = st.text_input("Enter the second country name to compare:")
+        country_name2 = st.selectbox("Select the second country:", country_list, help="Start typing to search")
         if country_name2:
             country_info2 = fetch_country_data(country_name2)
             if country_info2:
