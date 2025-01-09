@@ -97,10 +97,10 @@ An interactive **Streamlit** application that allows users to compare basic info
 ## Example Screenshots
 
 ### Country Information App Home Page
-![Home Page](screenshot/image-1.png)
+![Home Page](screenshots/image-1.png)
 
 ### Country Comparison View
-![Comparison View](screenshot/image-2.png)
+![Comparison View](screenshots/image-2.png)
 
 ---
 
