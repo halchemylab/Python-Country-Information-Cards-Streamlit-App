@@ -96,11 +96,11 @@ An interactive **Streamlit** application that allows users to compare basic info
 
 ## Example Screenshots
 
-### Main Interface
-*(Add an image of your Streamlit app's home page)*
+### Country Information App Home Page
+![Home Page](screenshot/image-1.png)
 
 ### Country Comparison View
-*(Add an image showing the comparison of two countries with chart)*
+![Comparison View](screenshot/image-2.png)
 
 ---
 
